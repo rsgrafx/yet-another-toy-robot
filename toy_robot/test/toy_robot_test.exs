@@ -32,4 +32,43 @@ defmodule ToyRobotTest do
       %{table: ^table, position: [0, 0]} = ToyRobot.game(:small, [0, 0])
     end
   end
+
+  describe "ToyRobot.turn(:left)" do
+    setup do
+      %{game: ToyRobot.game(:small)}
+    end
+
+    test "current north - right turns", %{game: game} do
+      %{facing: :east} = game = ToyRobot.turn(game, :right)
+      %{facing: :south} = game = ToyRobot.turn(game, :right)
+      %{facing: :west} = game = ToyRobot.turn(game, :right)
+      %{facing: :north} = ToyRobot.turn(game, :right)
+    end
+
+    test "current north - left turns", %{game: game} do
+      %{facing: :west} = game = ToyRobot.turn(game, :left)
+      %{facing: :south} = game = ToyRobot.turn(game, :left)
+      %{facing: :east} = game = ToyRobot.turn(game, :left)
+      %{facing: :north} = ToyRobot.turn(game, :left)
+    end
+  end
+
+  # describe "ToyRobot.move" do
+  #   setup do
+  #     %{table: ToyRobot.game(:small)}
+  #   end
+
+  #   test "move position east", %{table: table} do
+  #     assert table.position == [0, 0]
+  #     table = ToyRobot.move(table, :east)
+  #     assert table.position == [0, 1]
+
+  #     table = ToyRobot.table({4, 4}, position: {1, 1})
+  #     assert table.position == [1, 1]
+  #     table = ToyRobot.move(table, :east)
+  #     assert table.position == [1, 2]
+  #     table = ToyRobot.move(table, :north)
+  #     assert table.position == [2, 2]
+  #   end
+  # end
 end
