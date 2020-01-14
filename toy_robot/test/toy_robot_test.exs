@@ -2,7 +2,7 @@ defmodule ToyRobotTest do
   use ExUnit.Case
 
   # Given a grid
-  # @grid [
+  # [
   #   [4, 0], [4, 1], [4, 2], [4, 3], [4, 4],
   #   [3, 0], [3, 1], [3, 2], [3, 3], [3, 4],
   #   [2, 0], [2, 1], [2, 2], [2, 3], [2, 4],
@@ -16,12 +16,20 @@ defmodule ToyRobotTest do
 
   describe "Toy Robot table" do
     test ".table/2", context do
-      assert table = ToyRobot.table(4, 4)
+      table = ToyRobot.table([4, 4])
 
+      # assert pos == [0, 0]
       assert List.first(table) == context.north_w
       assert Enum.at(table, 4) == context.north_e
       assert Enum.at(table, 20) == context.south_w
       assert Enum.at(table, 24) == context.south_e
+    end
+  end
+
+  describe "ToyRobot.game/2" do
+    test "Sets up a new game with initial position" do
+      table = ToyRobot.table([4, 4])
+      %{table: ^table, position: [0, 0]} = ToyRobot.game(:small, [0, 0])
     end
   end
 end
