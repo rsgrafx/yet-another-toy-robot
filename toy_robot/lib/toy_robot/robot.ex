@@ -1,5 +1,5 @@
 defmodule ToyRobot.Robot do
-  defstruct [:position, facing: :north]
+  defstruct [:position, bad_coords: [], facing: :north]
 
   @right [:north, :east, :south, :west]
   @left [:north, :west, :south, :east]

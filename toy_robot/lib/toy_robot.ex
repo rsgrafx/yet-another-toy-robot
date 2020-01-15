@@ -6,7 +6,7 @@ defmodule ToyRobot do
   def game(:small, position \\ [0, 0]) do
     table = Table.new(blocks: 5)
     robot = Robot.new(position)
-    Game.new(table, robot)
+    valid_start(position, table, robot)
   end
 
   def turn_robot(game, :left) do
@@ -18,7 +18,15 @@ defmodule ToyRobot do
   end
 
   def move(game) do
-    %{game | robot: Moves.move(game.robot)}
+    %{game | robot: Moves.move(game.robot, game.table)}
+  end
+
+  defp valid_start(position, table, robot) do
+    if position in table do
+      Game.new(table, robot)
+    else
+      raise ToyRobotGameError, "Please try a valid start position"
+    end
   end
 
   @doc """
@@ -34,4 +42,8 @@ defmodule ToyRobot do
   def table(size) do
     Table.new(size)
   end
+end
+
+defmodule ToyRobotGameError do
+  defexception [:message]
 end

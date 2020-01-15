@@ -28,6 +28,14 @@ defmodule ToyRobotTest do
     end
   end
 
+  describe "ToyRobot Game invalid start" do
+    test "assert raise" do
+      assert_raise ToyRobotGameError, fn ->
+        ToyRobot.game(:small, [20, 20])
+      end
+    end
+  end
+
   describe "ToyRobot.turn_robot(:left)" do
     setup do
       %{game: ToyRobot.game(:small)}
@@ -148,6 +156,23 @@ defmodule ToyRobotTest do
         |> ToyRobot.move()
 
       assert back_to_beginning.robot.position == [2, 2]
+    end
+  end
+
+  describe "Handing Constraints on off table" do
+    test "Given position (1, 0) [:right, :move, :move, :right, :move]" do
+      game = ToyRobot.game(:small, [1, 0])
+
+      dont_fall_off =
+        game
+        |> ToyRobot.turn_robot(:right)
+        |> ToyRobot.move()
+        |> ToyRobot.move()
+        |> ToyRobot.turn_robot(:right)
+        |> ToyRobot.move()
+
+      assert dont_fall_off.robot.position == [3, 0]
+      assert dont_fall_off.robot.bad_coords == [[3, -1]]
     end
   end
 end
