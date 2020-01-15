@@ -76,13 +76,13 @@ defmodule ToyRobot.UI.CLI do
     loop_game(game)
   end
 
-  defp command(["place", params], game) do
-    game = ToyRobot.game(:small, to_coords(params))
+  defp command(["place", params], _game) do
+    game = ToyRobot.game(to_coords(params))
     loop_game(game)
   end
 
   defp command(["place", params, facing], game) do
-    game = ToyRobot.game(:small, to_coords(params))
+    game = ToyRobot.game(to_coords(params))
     loop_game(game)
   end
 

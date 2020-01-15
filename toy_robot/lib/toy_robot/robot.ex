@@ -4,8 +4,8 @@ defmodule ToyRobot.Robot do
   @right [:north, :east, :south, :west]
   @left [:north, :west, :south, :east]
 
-  def new(position) do
-    struct(__MODULE__, position: position)
+  def new(position, facing \\ :north) do
+    struct(__MODULE__, position: position, facing: facing)
   end
 
   def turn(%{facing: :east} = robot, :left) do

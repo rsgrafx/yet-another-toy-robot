@@ -23,22 +23,21 @@ defmodule ToyRobotTest do
     test "Sets up a new game with initial position" do
       table = ToyRobot.table(blocks: 5)
 
-      %{table: ^table, robot: %Robot{facing: :north, position: [0, 0]}} =
-        ToyRobot.game(:small, [0, 0])
+      %{table: ^table, robot: %Robot{facing: :north, position: [0, 0]}} = ToyRobot.game([0, 0])
     end
   end
 
   describe "ToyRobot Game invalid start" do
     test "assert raise" do
       assert_raise ToyRobotGameError, fn ->
-        ToyRobot.game(:small, [20, 20])
+        ToyRobot.game([20, 20])
       end
     end
   end
 
   describe "ToyRobot.turn_robot(:left)" do
     setup do
-      %{game: ToyRobot.game(:small)}
+      %{game: ToyRobot.game()}
     end
 
     test "current north - right turns", %{game: game} do
@@ -77,7 +76,7 @@ defmodule ToyRobotTest do
 
   describe "ToyRobot.move/1" do
     test "Given position (0,0) table facing north." do
-      game = ToyRobot.game(:small)
+      game = ToyRobot.game()
       game = ToyRobot.move(game)
       assert game.robot.position == [0, 1]
     end
@@ -85,7 +84,7 @@ defmodule ToyRobotTest do
     # Move position => (1, 0)
 
     test "Given position (2,1) moved twice facing east" do
-      game = ToyRobot.game(:small, [2, 1])
+      game = ToyRobot.game([2, 1])
       game = ToyRobot.turn_robot(game, :right)
 
       assert game.robot.facing == :east
@@ -99,7 +98,7 @@ defmodule ToyRobotTest do
     end
 
     test "Given position (0,2) [:right, :right, :move]" do
-      game = ToyRobot.game(:small, [0, 2])
+      game = ToyRobot.game([0, 2])
 
       turn_move =
         game
@@ -113,7 +112,7 @@ defmodule ToyRobotTest do
     # Move position => (3,1)
 
     test "Given position (4,4) [:right, :right, :right, :move]" do
-      game = ToyRobot.game(:small, [4, 4])
+      game = ToyRobot.game([4, 4])
 
       turn_move =
         game
@@ -128,7 +127,7 @@ defmodule ToyRobotTest do
     # Move position => :noop || {:error, "you will fall off the table."}
 
     test "Given position (4,4) [:left, :move, :move, :right :move]" do
-      game = ToyRobot.game(:small, [4, 4])
+      game = ToyRobot.game([4, 4])
 
       turn_move =
         game
@@ -142,7 +141,7 @@ defmodule ToyRobotTest do
     end
 
     test "Given position (2,2) end up right where you started." do
-      game = ToyRobot.game(:small, [2, 2])
+      game = ToyRobot.game([2, 2])
 
       back_to_beginning =
         game
@@ -161,7 +160,7 @@ defmodule ToyRobotTest do
 
   describe "Handing Constraints on off table" do
     test "Given position (1, 0) [:right, :move, :move, :right, :move]" do
-      game = ToyRobot.game(:small, [1, 0])
+      game = ToyRobot.game([1, 0])
 
       dont_fall_off =
         game

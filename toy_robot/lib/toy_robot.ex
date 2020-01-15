@@ -3,9 +3,11 @@ defmodule ToyRobot do
 
   alias ToyRobot.{Game, Robot, Moves, Table}
 
-  def game(:small, position \\ [0, 0]) do
+  def game(position \\ [0, 0], facing \\ :north)
+
+  def game(position, facing) do
     table = Table.new(blocks: 5)
-    robot = Robot.new(position)
+    robot = Robot.new(position, facing)
     valid_start(position, table, robot)
   end
 
