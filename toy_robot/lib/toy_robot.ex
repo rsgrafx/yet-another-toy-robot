@@ -4,7 +4,7 @@ defmodule ToyRobot do
   @right [:north, :east, :south, :west]
   @left [:north, :west, :south, :east]
 
-  alias ToyRobot.{Game, Table}
+  alias ToyRobot.{Game, Moves, Table}
 
   def game(:small, position \\ [0, 0]) do
     Table.new(blocks: 5)
@@ -32,6 +32,7 @@ defmodule ToyRobot do
   end
 
   def move(game) do
+    Moves.move(game)
   end
 
   @doc """
