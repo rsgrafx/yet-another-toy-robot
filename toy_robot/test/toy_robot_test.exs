@@ -25,6 +25,13 @@ defmodule ToyRobotTest do
 
       %{table: ^table, robot: %Robot{facing: :north, position: [0, 0]}} = ToyRobot.game([0, 0])
     end
+
+    test "sets correct direction on robot" do
+      for dir <- ~w|north south east west|a do
+        game = ToyRobot.game([0, 0], dir)
+        assert game.robot.facing == dir
+      end
+    end
   end
 
   describe "ToyRobot Game invalid start" do

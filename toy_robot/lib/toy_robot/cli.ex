@@ -81,8 +81,8 @@ defmodule ToyRobot.UI.CLI do
     loop_game(game)
   end
 
-  defp command(["place", params, facing], game) do
-    game = ToyRobot.game(to_coords(params))
+  defp command(["place", params, facing] = _data, game) do
+    game = ToyRobot.game(to_coords(params), String.to_atom(facing))
     loop_game(game)
   end
 
