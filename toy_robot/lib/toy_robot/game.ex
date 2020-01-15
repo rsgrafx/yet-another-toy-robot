@@ -1,7 +1,7 @@
 defmodule ToyRobot.Game do
-  defstruct [:position, :table, facing: :north]
+  defstruct [:robot, :table, facing: :north]
 
-  def new(table, position) do
-    struct(__MODULE__, table: table, position: position)
+  def new(table, robot) do
+    struct(__MODULE__, table: table, robot: robot)
   end
 end

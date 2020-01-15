@@ -1,38 +1,24 @@
 defmodule ToyRobot do
   @doc "Generate base table - grid"
 
-  @right [:north, :east, :south, :west]
-  @left [:north, :west, :south, :east]
-
-  alias ToyRobot.{Game, Moves, Table}
+  alias ToyRobot.{Game, Robot, Moves, Table}
 
   def game(:small, position \\ [0, 0]) do
-    Table.new(blocks: 5)
-    |> Game.new(position)
+    table = Table.new(blocks: 5)
+    robot = Robot.new(position)
+    Game.new(table, robot)
   end
 
-  def turn(%{facing: :east} = game, :left) do
-    %{game | facing: :north}
+  def turn_robot(game, :left) do
+    %{game | robot: Robot.turn(game.robot, :left)}
   end
 
-  def turn(game, :left) do
-    values = Enum.with_index(@left)
-    idx = Keyword.get(values, game.facing)
-    %{game | facing: Enum.at(@left, idx + 1)}
-  end
-
-  def turn(%{facing: :west} = game, :right) do
-    %{game | facing: :north}
-  end
-
-  def turn(game, :right) do
-    values = Enum.with_index(@right)
-    idx = Keyword.get(values, game.facing)
-    %{game | facing: Enum.at(@right, idx + 1)}
+  def turn_robot(game, :right) do
+    %{game | robot: Robot.turn(game.robot, :right)}
   end
 
   def move(game) do
-    Moves.move(game)
+    %{game | robot: Moves.move(game.robot)}
   end
 
   @doc """

@@ -1,6 +1,8 @@
 defmodule ToyRobotTest do
   use ExUnit.Case
 
+  alias ToyRobot.Robot
+
   setup do
     %{north_w: [0, 4], south_w: [0, 0], north_e: [4, 4], south_e: [4, 0]}
   end
@@ -20,27 +22,37 @@ defmodule ToyRobotTest do
   describe "ToyRobot.game/2" do
     test "Sets up a new game with initial position" do
       table = ToyRobot.table(blocks: 5)
-      %{table: ^table, position: [0, 0]} = ToyRobot.game(:small, [0, 0])
+
+      %{table: ^table, robot: %Robot{facing: :north, position: [0, 0]}} =
+        ToyRobot.game(:small, [0, 0])
     end
   end
 
-  describe "ToyRobot.turn(:left)" do
+  describe "ToyRobot.turn_robot(:left)" do
     setup do
       %{game: ToyRobot.game(:small)}
     end
 
     test "current north - right turns", %{game: game} do
-      %{facing: :east} = game = ToyRobot.turn(game, :right)
-      %{facing: :south} = game = ToyRobot.turn(game, :right)
-      %{facing: :west} = game = ToyRobot.turn(game, :right)
-      %{facing: :north} = ToyRobot.turn(game, :right)
+      game = ToyRobot.turn_robot(game, :right)
+      assert game.robot.facing == :east
+      game = ToyRobot.turn_robot(game, :right)
+      assert game.robot.facing == :south
+      game = ToyRobot.turn_robot(game, :right)
+      assert game.robot.facing == :west
+      game = ToyRobot.turn_robot(game, :right)
+      assert game.robot.facing == :north
     end
 
     test "current north - left turns", %{game: game} do
-      %{facing: :west} = game = ToyRobot.turn(game, :left)
-      %{facing: :south} = game = ToyRobot.turn(game, :left)
-      %{facing: :east} = game = ToyRobot.turn(game, :left)
-      %{facing: :north} = ToyRobot.turn(game, :left)
+      game = ToyRobot.turn_robot(game, :left)
+      assert game.robot.facing == :west
+      game = ToyRobot.turn_robot(game, :left)
+      assert game.robot.facing == :south
+      game = ToyRobot.turn_robot(game, :left)
+      assert game.robot.facing == :east
+      game = ToyRobot.turn_robot(game, :left)
+      assert game.robot.facing == :north
     end
   end
 
@@ -59,23 +71,23 @@ defmodule ToyRobotTest do
     test "Given position (0,0) table facing north." do
       game = ToyRobot.game(:small)
       game = ToyRobot.move(game)
-      assert game.position == [0, 1]
+      assert game.robot.position == [0, 1]
     end
 
     # Move position => (1, 0)
 
     test "Given position (2,1) moved twice facing east" do
       game = ToyRobot.game(:small, [2, 1])
-      game = ToyRobot.turn(game, :right)
+      game = ToyRobot.turn_robot(game, :right)
 
-      assert game.facing == :east
+      assert game.robot.facing == :east
 
       moved =
         game
         |> ToyRobot.move()
         |> ToyRobot.move()
 
-      assert moved.position == [4, 1]
+      assert moved.robot.position == [4, 1]
     end
 
     test "Given position (0,2) [:right, :right, :move]" do
@@ -83,11 +95,11 @@ defmodule ToyRobotTest do
 
       turn_move =
         game
-        |> ToyRobot.turn(:right)
-        |> ToyRobot.turn(:right)
+        |> ToyRobot.turn_robot(:right)
+        |> ToyRobot.turn_robot(:right)
         |> ToyRobot.move()
 
-      assert turn_move.position == [0, 1]
+      assert turn_move.robot.position == [0, 1]
     end
 
     # Move position => (3,1)
@@ -97,12 +109,12 @@ defmodule ToyRobotTest do
 
       turn_move =
         game
-        |> ToyRobot.turn(:right)
-        |> ToyRobot.turn(:right)
+        |> ToyRobot.turn_robot(:right)
+        |> ToyRobot.turn_robot(:right)
         |> ToyRobot.move()
         |> ToyRobot.move()
 
-      assert turn_move.position == [4, 2]
+      assert turn_move.robot.position == [4, 2]
     end
 
     # Move position => :noop || {:error, "you will fall off the table."}
@@ -112,13 +124,13 @@ defmodule ToyRobotTest do
 
       turn_move =
         game
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
         |> ToyRobot.move()
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
 
-      assert turn_move.position == [2, 3]
+      assert turn_move.robot.position == [2, 3]
     end
 
     test "Given position (2,2) end up right where you started." do
@@ -126,16 +138,16 @@ defmodule ToyRobotTest do
 
       back_to_beginning =
         game
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
-        |> ToyRobot.turn(:left)
+        |> ToyRobot.turn_robot(:left)
         |> ToyRobot.move()
 
-      assert back_to_beginning.position == [2, 2]
+      assert back_to_beginning.robot.position == [2, 2]
     end
   end
 end

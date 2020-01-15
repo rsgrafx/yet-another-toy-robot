@@ -4,23 +4,23 @@ defmodule ToyRobot.Moves do
   on the board.
   """
 
-  def move(%{position: [x, y], facing: :north} = game) do
+  def move(%{position: [x, y], facing: :north} = robot) do
     new_position = [x, y + 1]
-    %{game | position: new_position}
+    %{robot | position: new_position}
   end
 
-  def move(%{position: [x, y], facing: :south} = game) do
+  def move(%{position: [x, y], facing: :south} = robot) do
     new_position = [x, y - 1]
-    %{game | position: new_position}
+    %{robot | position: new_position}
   end
 
-  def move(%{position: [x, y], facing: :east} = game) do
+  def move(%{position: [x, y], facing: :east} = robot) do
     new_position = [x + 1, y]
-    %{game | position: new_position}
+    %{robot | position: new_position}
   end
 
-  def move(%{position: [x, y], facing: :west} = game) do
+  def move(%{position: [x, y], facing: :west} = robot) do
     new_position = [x - 1, y]
-    %{game | position: new_position}
+    %{robot | position: new_position}
   end
 end
