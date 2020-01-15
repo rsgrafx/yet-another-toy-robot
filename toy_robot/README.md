@@ -11,7 +11,7 @@ This is mix application with that provides `toy_robot` after setup.
 
 `cd toy_robot`
 
-`mix escript.build` 
+`mix escript.build` this will generate a `./toy_robot` executable in your current directory.
 
 ## Running CLI application
 
@@ -23,11 +23,13 @@ This is mix application with that provides `toy_robot` after setup.
     Available commands
     > place - # Example usage
       place 1,1 west #default direction is north
-
+q
     > help - brings up this prompt
     > right - turns robot 90 deg right
     > left - turns robot 90 deg left
     > move - Robot advances current direction one position
+
+    > quit - exit.
 ```
 
 

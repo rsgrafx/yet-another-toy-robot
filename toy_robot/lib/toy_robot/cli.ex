@@ -109,6 +109,10 @@ defmodule ToyRobot.UI.CLI do
     loop_game(game)
   end
 
+  defp command([v], _) when v in ["quit", "q"] do
+    System.halt()
+  end
+
   defp command(command, game) do
     IO.inspect(game, label: "unknown: #{command}")
     loop_game(game)
