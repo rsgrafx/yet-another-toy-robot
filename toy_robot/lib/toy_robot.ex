@@ -1,5 +1,7 @@
 defmodule ToyRobot do
-  @doc "Generate base table - grid"
+  @moduledoc """
+    Generate base table - grid
+  """
 
   alias ToyRobot.{Game, Robot, Moves, Table}
 

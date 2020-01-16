@@ -12,9 +12,11 @@ defimpl Inspect, for: ToyRobot.Game do
   end
 
   def inspect(data, _) do
-    """
-    Robot position: #{inspect(data.robot.position)}
-    Facing: #{data.robot.facing}
-    """
+    grid = ToyRobot.UI.Grid.print(data)
+    ~s|
+#{grid}
+Robot position: #{inspect(data.robot.position)}
+Facing: #{data.robot.facing}
+    |
   end
 end
