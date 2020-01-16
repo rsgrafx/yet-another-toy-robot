@@ -76,12 +76,16 @@ defmodule ToyRobot.UI.CLI do
     loop_game(game)
   end
 
+  defp command(["place"], game) do
+    command(["report"], game)
+  end
+
   defp command(["place", params], _game) do
     game = ToyRobot.game(to_coords(params))
     loop_game(game)
   end
 
-  defp command(["place", params, facing] = _data, game) do
+  defp command(["place", params, facing] = _data, _game) do
     game = ToyRobot.game(to_coords(params), String.to_atom(facing))
     loop_game(game)
   end
@@ -102,6 +106,13 @@ defmodule ToyRobot.UI.CLI do
     game
     |> ToyRobot.move()
     |> loop_game()
+  end
+
+  defp command(["report"], game = nil) do
+    IO.puts(~s|Please start game by placing the rocket on the table.
+# Eg. place 1,2 west
+    |)
+    loop_game(game)
   end
 
   defp command(["report"], game) do

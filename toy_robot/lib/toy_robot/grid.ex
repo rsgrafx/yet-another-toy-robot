@@ -12,7 +12,7 @@ defmodule ToyRobot.UI.Grid do
   """
 
   def print(game) do
-    chunked = Enum.chunk(game.table, 5)
+    chunked = Enum.chunk_every(game.table, 5)
     for n <- chunked, do: row(n, game.robot.position)
   end
 
