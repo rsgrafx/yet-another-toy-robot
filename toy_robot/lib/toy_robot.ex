@@ -5,10 +5,10 @@ defmodule ToyRobot do
 
   alias ToyRobot.{Game, Robot, Moves, Table}
 
-  def game(position \\ [0, 0], facing \\ :north)
+  def game(position \\ [0, 0], facing \\ :north, blocks \\ 5)
 
-  def game(position, facing) do
-    table = Table.new(blocks: 5)
+  def game(position, facing, blocks) do
+    table = Table.new(blocks: blocks)
     robot = Robot.new(position, facing)
     valid_start(position, table, robot)
   end
@@ -22,7 +22,7 @@ defmodule ToyRobot do
   end
 
   def move(game) do
-    %{game | robot: Moves.move(game.robot, game.table)}
+    %{game | robot: Moves.move(game.robot, game.table, [game.blocked])}
   end
 
   defp valid_start(position, table, robot) do
