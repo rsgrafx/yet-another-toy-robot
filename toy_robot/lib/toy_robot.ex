@@ -25,7 +25,7 @@ defmodule ToyRobot do
 
   def move(game) do
     robot = Moves.move(game.robot, game.table, [game.blocked])
-    game = %{game | robot: robot}
+
     SavedPlays.add_play("move")
     SavedPlays.last_move(robot.position)
 
