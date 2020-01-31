@@ -3,7 +3,7 @@ defmodule ToyRobot do
     Generate base table - grid
   """
 
-  alias ToyRobot.{Game, Robot, Moves, Table}
+  alias ToyRobot.{Game, Robot, Moves, SavedPlays, Table}
 
   def game(position \\ [0, 0], facing \\ :north, blocks \\ 5)
 
@@ -13,16 +13,23 @@ defmodule ToyRobot do
     valid_start(position, table, robot)
   end
 
-  def turn_robot(game, :left) do
+  def turn_robot(game, :left = turn) do
+    SavedPlays.add_play(turn)
     %{game | robot: Robot.turn(game.robot, :left)}
   end
 
-  def turn_robot(game, :right) do
+  def turn_robot(game, :right = turn) do
+    SavedPlays.add_play(turn)
     %{game | robot: Robot.turn(game.robot, :right)}
   end
 
   def move(game) do
-    %{game | robot: Moves.move(game.robot, game.table, [game.blocked])}
+    robot = Moves.move(game.robot, game.table, [game.blocked])
+    game = %{game | robot: robot}
+    SavedPlays.add_play("move")
+    SavedPlays.last_move(robot.position)
+
+    %{game | robot: robot}
   end
 
   defp valid_start(position, table, robot) do

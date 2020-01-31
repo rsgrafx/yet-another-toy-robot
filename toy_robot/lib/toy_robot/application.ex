@@ -8,7 +8,7 @@ defmodule ToyRobot.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: ToyRobot.Worker.start_link(arg)
-      # {ToyRobot.Worker, arg}
+      {ToyRobot.SavedPlays, name: :game_plays}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

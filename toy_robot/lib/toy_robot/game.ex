@@ -1,5 +1,5 @@
 defmodule ToyRobot.Game do
-  defstruct [:robot, :table, blocked: []]
+  defstruct [:robot, :table, :plays, blocked: []]
 
   def new(table, robot, blocked \\ [1, 2]) do
     struct(__MODULE__, table: table, robot: robot, blocked: blocked)

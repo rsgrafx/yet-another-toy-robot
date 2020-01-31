@@ -43,22 +43,27 @@ defmodule ToyRobot.UI.CLI do
     start(params)
   end
 
-  defp start(help: true) do
-    IO.puts("help messages goes here")
-  end
-
   defp start(_) do
     loop_game()
   end
 
-  defp loop_game(game \\ nil) do
-    gets =
-      IO.gets("> ")
-      |> String.trim()
-      |> String.downcase()
-      |> String.split(" ")
+  defp loop_game(game \\ nil)
 
-    command(gets, game)
+  defp loop_game(nil = game) do
+    values = ToyRobot.SavedPlays.get_last_position()
+    IO.inspect(values, label: "Start from previous game position >>")
+    command(gets(), game)
+  end
+
+  defp loop_game(game) do
+    command(gets(), game)
+  end
+
+  defp gets() do
+    IO.gets("> ")
+    |> String.trim()
+    |> String.downcase()
+    |> String.split(" ")
   end
 
   defp command(["help" | _], game) do
@@ -121,6 +126,7 @@ defmodule ToyRobot.UI.CLI do
   end
 
   defp command([v], _) when v in ["quit", "q"] do
+    ToyRobot.SavedPlays.store()
     System.halt()
   end
 
